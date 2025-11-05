@@ -19,7 +19,7 @@ public class Cell {
     @Getter
     private final ResidentMap residents = new ResidentMap();
 
-    private final List<Cell> neighbors = new ArrayList<>(8); // максимум 8 соседей (4 прямых + 4 диагональных)
+    private final List<Cell> neighbors = new ArrayList<>(8);
 
 
     public void initializeNeighbors(GameMap map, int row, int col) {
