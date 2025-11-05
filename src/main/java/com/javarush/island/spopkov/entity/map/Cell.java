@@ -19,28 +19,51 @@ public class Cell {
     @Getter
     private final ResidentMap residents = new ResidentMap();
 
-    private final List<Cell> neighbors = new ArrayList<>(4);
+    private final List<Cell> neighbors = new ArrayList<>(8); // максимум 8 соседей (4 прямых + 4 диагональных)
 
 
     public void initializeNeighbors(GameMap map, int row, int col) {
         neighbors.clear();
         Cell[][] grid = map.getCells();
+        int maxRows = map.getRows();
+        int maxCols = map.getCols();
 
+        // Straight directions (4 sides)
 
+        // Top cell
         if (row > 0) {
             neighbors.add(grid[row - 1][col]);
         }
-
+        // Left cell
         if (col > 0) {
             neighbors.add(grid[row][col - 1]);
         }
-
-        if (row < map.getRows() - 1) {
+        // Bottom cell
+        if (row < maxRows - 1) {
             neighbors.add(grid[row + 1][col]);
         }
-
-        if (col < map.getCols() - 1) {
+        // Right cell
+        if (col < maxCols - 1) {
             neighbors.add(grid[row][col + 1]);
+        }
+
+        // Diagonal directions (4 corners)
+
+        // Upper left corner
+        if (row > 0 && col > 0) {
+            neighbors.add(grid[row - 1][col - 1]);
+        }
+        // Upper right corner
+        if (row > 0 && col < maxCols - 1) {
+            neighbors.add(grid[row - 1][col + 1]);
+        }
+        // Bottom left corner
+        if (row < maxRows - 1 && col > 0) {
+            neighbors.add(grid[row + 1][col - 1]);
+        }
+        // Bottom right corner
+        if (row < maxRows - 1 && col < maxCols - 1) {
+            neighbors.add(grid[row + 1][col + 1]);
         }
     }
 
@@ -70,11 +93,9 @@ public class Cell {
         return target;
     }
 
-
     public int getNeighborCount() {
         return neighbors.size();
     }
-
 
     public List<Cell> getNeighbors() {
         return Collections.unmodifiableList(neighbors);
